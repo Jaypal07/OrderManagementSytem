@@ -1,0 +1,4 @@
+package com.jaypal.oms.shared.kernel;
+
+public class BusinessRule {
+}
