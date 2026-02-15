@@ -1,0 +1,95 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/${DB_NAME:oms_prod}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQL15Dialect
+        generate_statistics: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+      ssl: ${REDIS_SSL:false}
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI}
+          jwk-set-uri: ${JWT_ISSUER_URI}/.well-known/jwks.json
+
+server:
+  port: 8080
+  compression:
+    enabled: true
+    min-response-size: 1024
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    root: WARN
+    com.jaypal: INFO
+  file:
+    name: /var/log/oms/application.log
+    max-size: 100MB
+    max-history: 30
+    total-size-cap: 10GB
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 3000ms
+        wait-duration-in-open-state: 30s
+        permitted-calls-in-half-open-state: 5
+
+app:
+  security:
+    enable-cors: true
+    cors-origins: ${CORS_ORIGINS:https://example.com}
+  inventory:
+    reservation-timeout-hours: 24
+  order:
+    max-retry-attempts: 3
+    retry-delay-ms: 200
+

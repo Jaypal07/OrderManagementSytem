@@ -67,7 +67,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
                     Order order = new Order(orderId, domainItems);
                     if (OrderStatus.valueOf(orderEntity.getStatus())
                             == OrderStatus.CANCELLED) {
-                        order.cancel();
+                        order.cancel("cancelled");
                     }
                     if (OrderStatus.valueOf(orderEntity.getStatus())
                             == OrderStatus.CONFIRMED) {

@@ -1,0 +1,65 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oms_dev
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081
+
+  # Disable caching in dev to see changes immediately
+  cache:
+    type: simple
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: always
+    include-exception: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,env,info,prometheus,threaddump,heapdump
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.jaypal: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+app:
+  security:
+    enable-cors: true
+    cors-origins: "*"
+

@@ -39,6 +39,16 @@ public class InventoryItem {
     }
 
     /**
+     * Public setter for use by persistence adapter.
+     * Used during domain object reconstruction from database.
+     *
+     * @param reservedStock the reserved stock level
+     */
+    public void setReservedStock(StockLevel reservedStock) {
+        this.reservedStock = reservedStock;
+    }
+
+    /**
      * Reserves stock for an order.
      */
     public void reserve(int quantity) {

@@ -7,9 +7,19 @@ import com.jaypal.oms.inventory.infrastructure.persistence.InventoryRepositoryAd
 import com.jaypal.oms.inventory.infrastructure.persistence.SpringDataInventoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Inventory Module Configuration
+ *
+ * Configures the Inventory module with:
+ * - Spring Retry for automatic retry on OptimisticLockException
+ * - Repository adapter for persistence
+ * - Use case beans for stock operations
+ */
 @Configuration
+@EnableRetry // Enable @Retryable processing for use cases
 public class InventoryModuleConfig {
 
     @Bean
@@ -32,3 +42,5 @@ public class InventoryModuleConfig {
         return new ReleaseStockUseCase(inventoryRepositoryPort);
     }
 }
+
+

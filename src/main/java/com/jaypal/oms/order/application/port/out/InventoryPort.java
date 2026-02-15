@@ -10,5 +10,5 @@ public interface InventoryPort {
 
     void reserveStock(UUID orderId, Map<String, Integer> skuQuantities);
 
-    void releaseStock(UUID orderId, Map<String, Integer> skuQuantities);
+    void releaseStock(UUID orderId);
 }
